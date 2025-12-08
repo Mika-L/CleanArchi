@@ -11,7 +11,6 @@
     <Folder Include="Common\" />
     <Folder Include="ValueObjects\" />
     <Folder Include="Enum\" />
-    <Folder Include="Entities\" />
   </ItemGroup>
 
 </Project>
