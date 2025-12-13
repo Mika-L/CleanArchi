@@ -4,3 +4,8 @@ GET {{CleanArchi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{CleanArchi_HostAddress}}/expense/7bd509d1-6e39-4c0f-bb53-360079a5dc71
+Accept: application/json
+
+###

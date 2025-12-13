@@ -10,7 +10,6 @@
     <Folder Include="Common\Behaviours\" />
     <Folder Include="Common\Model\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Features\Expenses\Queries\" />
     <Folder Include="Features\Users\Commands\" />
     <Folder Include="Features\Users\Queries\" />
   </ItemGroup>

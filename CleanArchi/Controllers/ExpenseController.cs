@@ -1,4 +1,5 @@
 ﻿using CleanArchi.Application.Features.Expenses.Commands.CreateExpense;
+using CleanArchi.Application.Features.Expenses.Queries.GetExpense;
 using CleanArchi.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,16 +23,14 @@ namespace CleanArchi.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            // var result = await _mediator.Send(new GetExpenseQuery(id), cancellationToken);
+            var result = await _mediator.Send(new GetExpenseQuery(id), cancellationToken);
 
-            return Ok(new Expense
+            if (result == null)
             {
-                Id = id,
-                Description = "Sample Expense",
-                Amount = 100.00m,
-                Date = DateTime.UtcNow,
-                UserId = Guid.NewGuid()
-            });
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]

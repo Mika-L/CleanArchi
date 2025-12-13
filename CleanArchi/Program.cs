@@ -7,6 +7,7 @@ using CleanArchi.Infrastructure.Persistence.EF.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System;
+using System.Reflection;
 
 namespace CleanArchi
 {
@@ -22,21 +23,11 @@ namespace CleanArchi
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            builder.Services.AddMediatR(cfg =>
             {
-                app.MapOpenApi();
-                app.MapScalarApiReference();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
+                //cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                cfg.RegisterServicesFromAssemblies(Assembly.Load("CleanArchi.Application"));
+            });
 
             // EF
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -53,6 +44,22 @@ namespace CleanArchi
 
             //builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UnitOfWorkDapper>());
             //builder.Services.AddScoped<IExpenseRepository, ExpenseRepositoryDapper>();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+                app.MapScalarApiReference();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+
+            app.MapControllers();
 
             app.Run();
         }

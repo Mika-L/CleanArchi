@@ -1,5 +1,6 @@
 ﻿using CleanArchi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace CleanArchi.Infrastructure.Persistence.EF
 {
@@ -7,11 +8,13 @@ namespace CleanArchi.Infrastructure.Persistence.EF
     {
         public DbSet<User> User;
 
-        public DbSet<Expense> Expenses;
+        public DbSet<Expense> Expenses => Set<Expense>();
 
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
         {
+            // use migration instead
+            this.Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
