@@ -1,15 +1,14 @@
 ﻿using CleanArchi.Domain.Entities;
 using CleanArchi.Domain.Repositories;
-using CleanArchi.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchi.Infrastructure.Data.Repositories
+namespace CleanArchi.Infrastructure.Persistence.EF.Repositories
 {
-    public class ExpenseRepository : IExpenseRepository
+    public class ExpenseRepositoryEF : IExpenseRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public ExpenseRepository(ApplicationDbContext context)
+        public ExpenseRepositoryEF(ApplicationDbContext context)
         {
             _context = context;
         }
