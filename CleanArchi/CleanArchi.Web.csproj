@@ -9,11 +9,14 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="14.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.1" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.11.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CleanArchi.Application\CleanArchi.Application.csproj" />
+    <ProjectReference Include="..\CleanArchi.Domain\CleanArchi.Domain.csproj" />
+    <ProjectReference Include="..\CleanArchi.Infrastructure\CleanArchi.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

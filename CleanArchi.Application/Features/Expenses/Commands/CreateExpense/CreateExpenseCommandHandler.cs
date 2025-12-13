@@ -1,4 +1,4 @@
-﻿using CleanArchi.Domain.Common;
+﻿using CleanArchi.Application.Common.Interfaces;
 using CleanArchi.Domain.Entities;
 using CleanArchi.Domain.Repositories;
 using MediatR;
@@ -37,7 +37,7 @@ namespace CleanArchi.Application.Features.Expenses.Commands.CreateExpense
 
             // Sauvegarde via repository
             await _expenseRepository.AddAsync(expense, cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.CommitAsync(cancellationToken);
 
             // Retour du résultat
             return new CreateExpenseResult(

@@ -1,5 +1,12 @@
-
+using CleanArchi.Application.Common.Interfaces;
+using CleanArchi.Domain.Repositories;
+using CleanArchi.Infrastructure.Persistence.Dapper;
+using CleanArchi.Infrastructure.Persistence.Dapper.Repositorie;
+using CleanArchi.Infrastructure.Persistence.EF;
+using CleanArchi.Infrastructure.Persistence.EF.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using System;
 
 namespace CleanArchi
 {
@@ -30,6 +37,22 @@ namespace CleanArchi
 
 
             app.MapControllers();
+
+            // EF
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWorkEF>();
+            builder.Services.AddScoped<IExpenseRepository, ExpenseRepositoryEF>();
+
+            // Dapper
+            //var cs = builder.Configuration.GetConnectionString("SQLServer");
+
+            //builder.Services.AddScoped<UnitOfWorkDapper>(sp =>
+            //    new UnitOfWorkDapper(cs));
+
+            //builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UnitOfWorkDapper>());
+            //builder.Services.AddScoped<IExpenseRepository, ExpenseRepositoryDapper>();
 
             app.Run();
         }
