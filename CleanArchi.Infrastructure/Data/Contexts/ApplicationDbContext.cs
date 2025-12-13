@@ -1,24 +1,19 @@
-﻿using CleanArchi.Application.Common.Interfaces;
-using CleanArchi.Domain.Entities;
+﻿using CleanArchi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CleanArchi.Infrastructure.Data.Contexts
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : DbContext
     {
-        public DbSet<User> UsersDbSet => Set<User>();
-        public DbSet<Expense> ExpensesDbSet => Set<Expense>();
+        public DbSet<User> User;
 
-        public IQueryable<User> Users => UsersDbSet;
-        public IQueryable<Expense> Expenses => ExpensesDbSet;
+        public DbSet<Expense> Expenses;
 
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
         {
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -39,11 +34,6 @@ namespace CleanArchi.Infrastructure.Data.Contexts
                 entity.Property(e => e.Amount).IsRequired().HasMaxLength(200);
                 entity.Property(e => e.Description).IsRequired().HasMaxLength(200);
             });
-        }
-
-        Task<int> IApplicationDbContext.SaveChangesAsync(CancellationToken cancellationToken)
-        {
-            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }
