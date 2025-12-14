@@ -25,12 +25,12 @@ namespace CleanArchi.Web.Controllers
         {
             var result = await _mediator.Send(new GetExpenseQuery(id), cancellationToken);
 
-            if (result == null)
+            if (!result.IsSuccess)
             {
-                return NotFound();
+                return NotFound(new { errors = result.Errors });
             }
 
-            return Ok(result);
+            return Ok(result.Value);
         }
 
         [HttpPost]

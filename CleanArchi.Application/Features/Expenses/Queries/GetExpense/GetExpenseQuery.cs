@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using CleanArchi.Application.DTOs;
+using CleanArchi.Domain.Common;
+using MediatR;
 
 namespace CleanArchi.Application.Features.Expenses.Queries.GetExpense
 {
-    public record GetExpenseQuery(Guid Id) : IRequest<GetExpenseResult>;
+    public record GetExpenseQuery(Guid Id) : IRequest<Result<ExpenseDto>>;
 
     public record GetExpenseResult(
         Guid Id,
