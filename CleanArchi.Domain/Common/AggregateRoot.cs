@@ -4,7 +4,7 @@
     {
         private readonly List<IDomainEvent> _domainEvents = new();
 
-        public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
+        public IReadOnlyList<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
 
         protected void Raise(IDomainEvent domainEvent)
         {

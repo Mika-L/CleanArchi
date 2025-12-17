@@ -1,12 +1,10 @@
 using CleanArchi.Application.Common.Interfaces;
 using CleanArchi.Domain.Repositories;
-using CleanArchi.Infrastructure.Persistence.Dapper;
-using CleanArchi.Infrastructure.Persistence.Dapper.Repositorie;
 using CleanArchi.Infrastructure.Persistence.EF;
+using CleanArchi.Infrastructure.Persistence.EF.Interceptors;
 using CleanArchi.Infrastructure.Persistence.EF.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using System;
 using System.Reflection;
 
 namespace CleanArchi
@@ -30,8 +28,17 @@ namespace CleanArchi
             });
 
             // EF
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
+            builder.Services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                (sp, options) =>
+                {
+                    options.UseSqlServer(
+                        builder.Configuration.GetConnectionString("SQLServer"))
+                    .AddInterceptors(
+                        sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>());
+                }
+            );
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWorkEF>();
             builder.Services.AddScoped<IExpenseRepository, ExpenseRepositoryEF>();
