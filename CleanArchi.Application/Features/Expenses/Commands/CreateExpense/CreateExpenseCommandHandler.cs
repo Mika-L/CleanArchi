@@ -1,5 +1,6 @@
 ﻿using CleanArchi.Application.Common.Interfaces;
-using CleanArchi.Domain.Entities;
+using CleanArchi.Domain.Aggregates.ExpenseAggregate;
+using CleanArchi.Domain.Events;
 using CleanArchi.Domain.Repositories;
 using MediatR;
 
@@ -18,22 +19,29 @@ namespace CleanArchi.Application.Features.Expenses.Commands.CreateExpense
 
         public async Task<CreateExpenseResult> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {  
-            // Validation métier (peut être déplacée dans un validator FluentValidation)
-            if (request.Amount <= 0)
-                throw new ArgumentException("Amount must be greater than zero");
+            //// Validation métier (peut être déplacée dans un validator FluentValidation)
+            //if (request.Amount <= 0)
+            //    throw new ArgumentException("Amount must be greater than zero");
 
-            if (string.IsNullOrWhiteSpace(request.Description))
-                throw new ArgumentException("Description is required");
+            //if (string.IsNullOrWhiteSpace(request.Description))
+            //    throw new ArgumentException("Description is required");
 
-            // Création de l'entité domain
-            var expense = new Expense
-            {
-                Id = Guid.NewGuid(),
-                Description = request.Description,
-                Amount = request.Amount,
-                Date = request.Date,
-                UserId = request.UserId
-            };
+            //// Création de l'entité domain
+            //var expense = new Expense
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Description = request.Description,
+            //    Amount = request.Amount,
+            //    Date = request.Date,
+            //    UserId = request.UserId
+            //};
+
+            var expense = Expense.Create(
+                request.Description,
+                request.Amount,
+                request.Date,
+                request.UserId
+            );
 
             // Sauvegarde via repository
             await _expenseRepository.AddAsync(expense, cancellationToken);

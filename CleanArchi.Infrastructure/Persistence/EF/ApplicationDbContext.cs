@@ -1,6 +1,6 @@
-﻿using CleanArchi.Domain.Entities;
+﻿using CleanArchi.Domain.Aggregates.ExpenseAggregate;
+using CleanArchi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace CleanArchi.Infrastructure.Persistence.EF
 {

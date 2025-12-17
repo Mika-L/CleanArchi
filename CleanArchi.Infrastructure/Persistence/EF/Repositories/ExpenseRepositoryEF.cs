@@ -1,4 +1,4 @@
-﻿using CleanArchi.Domain.Entities;
+﻿using CleanArchi.Domain.Aggregates.ExpenseAggregate;
 using CleanArchi.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 

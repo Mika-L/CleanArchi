@@ -1,4 +1,5 @@
-﻿using CleanArchi.Domain.Entities;
+﻿
+using CleanArchi.Domain.Aggregates.ExpenseAggregate;
 
 namespace CleanArchi.Domain.Repositories
 {

@@ -1,6 +1,6 @@
 ﻿using CleanArchi.Application.Features.Expenses.Commands.CreateExpense;
 using CleanArchi.Application.Features.Expenses.Queries.GetExpense;
-using CleanArchi.Domain.Entities;
+using CleanArchi.Domain.Aggregates.ExpenseAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
