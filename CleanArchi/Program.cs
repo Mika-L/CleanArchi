@@ -4,9 +4,12 @@ using CleanArchi.Infrastructure.Persistence.EF;
 using CleanArchi.Infrastructure.Persistence.EF.Interceptors;
 using CleanArchi.Infrastructure.Persistence.EF.Repositories;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
-using System.Reflection;
 using Serilog;
+using System.Reflection;
 
 namespace CleanArchi
 {
@@ -61,6 +64,26 @@ namespace CleanArchi
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext();
             });
+
+            // open telemetry
+            builder.Services.AddOpenTelemetry()
+                .ConfigureResource(resource =>
+                    resource.AddService(builder.Environment.ApplicationName))
+                .WithTracing(tracing =>
+                {
+                    tracing
+                        //                //.AddSource("CleanArchi.Application")
+                        .AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddConsoleExporter(); // affichage des traces dans la console
+                })
+                .WithMetrics(metrics =>
+                {
+                    metrics
+                        .AddAspNetCoreInstrumentation()
+                        .AddHttpClientInstrumentation()
+                        .AddConsoleExporter();  // affichage des métriques dans la console
+                });
 
             var app = builder.Build();
 
