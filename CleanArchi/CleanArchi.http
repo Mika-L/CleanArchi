@@ -9,3 +9,13 @@ GET {{CleanArchi_HostAddress}}/expense/7bd509d1-6e39-4c0f-bb53-360079a5dc71
 Accept: application/json
 
 ###
+
+POST {{CleanArchi_HostAddress}}/expense
+Accept: application/json
+Content-Type: application/json
+{
+  "amount": 123.45,
+  "description": "Business lunch with client",
+  "date": "2024-06-15T12:30:00Z",
+  "userId": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+}

@@ -6,6 +6,7 @@ using CleanArchi.Infrastructure.Persistence.EF.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using System.Reflection;
+using Serilog;
 
 namespace CleanArchi
 {
@@ -51,6 +52,15 @@ namespace CleanArchi
 
             //builder.Services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UnitOfWorkDapper>());
             //builder.Services.AddScoped<IExpenseRepository, ExpenseRepositoryDapper>();
+
+            // logging
+            builder.Host.UseSerilog((context, services, configuration) =>
+            {
+                configuration
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services)
+                    .Enrich.FromLogContext();
+            });
 
             var app = builder.Build();
 
