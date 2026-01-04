@@ -3,6 +3,7 @@ using CleanArchi.Domain.Repositories;
 using CleanArchi.Infrastructure.Persistence.EF;
 using CleanArchi.Infrastructure.Persistence.EF.Interceptors;
 using CleanArchi.Infrastructure.Persistence.EF.Repositories;
+using CleanArchi.Web.ExceptionHandling;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -85,6 +86,16 @@ namespace CleanArchi
                         .AddConsoleExporter();  // affichage des métriques dans la console
                 });
 
+            // Exception handling
+            builder.Services.AddProblemDetails(configure =>
+                configure.CustomizeProblemDetails = options =>
+                {
+                    options.ProblemDetails.Extensions.TryAdd("traceId",
+                        options.HttpContext.TraceIdentifier);
+                }
+            );
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -98,6 +109,7 @@ namespace CleanArchi
 
             app.UseAuthorization();
 
+            app.UseExceptionHandler();
 
             app.MapControllers();
 
