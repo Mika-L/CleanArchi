@@ -1,5 +1,7 @@
 using CleanArchi.Application.Common.Interfaces;
+using CleanArchi.Application.Outbox;
 using CleanArchi.Domain.Repositories;
+using CleanArchi.Infrastructure.Messaging;
 using CleanArchi.Infrastructure.Persistence.EF;
 using CleanArchi.Infrastructure.Persistence.EF.Interceptors;
 using CleanArchi.Infrastructure.Persistence.EF.Repositories;
@@ -95,6 +97,9 @@ namespace CleanArchi
                 }
             );
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+            // messaging
+            builder.Services.AddSingleton<IMessagePublisher, RabbitMqMessagePublisher>();
 
             var app = builder.Build();
 
