@@ -2,6 +2,7 @@ using CleanArchi.Application.Common.Interfaces;
 using CleanArchi.Application.Outbox;
 using CleanArchi.Domain.Repositories;
 using CleanArchi.Infrastructure.Messaging;
+using CleanArchi.Infrastructure.Oubox;
 using CleanArchi.Infrastructure.Persistence.EF;
 using CleanArchi.Infrastructure.Persistence.EF.Interceptors;
 using CleanArchi.Infrastructure.Persistence.EF.Repositories;
@@ -100,6 +101,10 @@ namespace CleanArchi
 
             // messaging
             builder.Services.AddSingleton<IMessagePublisher, RabbitMqMessagePublisher>();
+
+            // outbox process hosted service
+            builder.Services.AddScoped<IOutboxRepository, OutboxRepository>();
+            builder.Services.AddHostedService<OutboxProcessor>();
 
             var app = builder.Build();
 
